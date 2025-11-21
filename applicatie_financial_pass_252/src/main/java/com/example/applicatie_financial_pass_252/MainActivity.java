@@ -3,6 +3,7 @@ package com.example.applicatie_financial_pass_252;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_READ_PHONE_STATE = 252;
 
     private TextView tvStatus, tvDetail, tvFooter;
+    private Button btnRescan; // << toegevoegd
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +29,19 @@ public class MainActivity extends AppCompatActivity {
         tvStatus = findViewById(R.id.tvStatus);
         tvDetail = findViewById(R.id.tvDetail);
         tvFooter = findViewById(R.id.tvFooter);
+        btnRescan = findViewById(R.id.btnRescan);
 
         // Start direct de SIM detectie
         tvStatus.setText("SIM detectie uitvoeren...");
         requestPermissionThenDetect();
+
+        // Knop om opnieuw te scannen
+        btnRescan.setOnClickListener(v -> {
+            tvStatus.setText("SIM detectie uitvoeren...");
+            tvDetail.setText("");
+            tvFooter.setText("Controle in uitvoering...");
+            requestPermissionThenDetect();
+        });
     }
 
     // Controleert of toestemming READ_PHONE_STATE al is gegeven
